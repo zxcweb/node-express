@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const Users = require('../models/Users');
@@ -20,7 +20,7 @@ router.post('/register', (req, res) => {
                     password: req.body.password,
                     identity: req.body.identity
                 })
-                bcrypt.genSalt(10,  (err, salt) => {
+                bcrypt.genSalt(10, (err, salt) => {
                     bcrypt.hash(newUser.password, salt, (err, hash) => {
                         if (err) throw err;
 
@@ -30,7 +30,7 @@ router.post('/register', (req, res) => {
                             .then(user => res.json({
                                 name: user.name,
                                 email: user.email,
-                                identity:user.identity
+                                identity: user.identity
                             }))
                             .catch(err => console.log(err));
                     });
@@ -42,13 +42,35 @@ router.post('/register', (req, res) => {
 // @route  POST api/users/login
 // @desc   返回的请求的json数据
 // @access public
-router.post('/login', (req,res) => { 
+router.post('/login', (req, res) => {
     const email = req.body.email;
     Users.findOne({ email })
-        .then(user => { 
-            if (!user) { 
+        .then(user => {
+            if (!user) {
                 return res.status(404).json('用户不存在')
             }
+            // 密码匹配
+            bcrypt.compare(password, user.password)
+                .then(isMatch => {
+                    if (isMatch) {
+                        const rule = {
+                            id: user.id,
+                            name: user.name,
+                            avatar: user.avatar,
+                            identity: user.identity
+                        };
+                        jwt.sign(rule, keys.secretOrKey, { expiresIn: 3600 }, (err, token) => {
+                            if (err) throw err;
+                            res.json({
+                                success: true,
+                                token: 'Bearer ' + token
+                            });
+                        });
+                        // res.json({msg:"success"});
+                    } else {
+                        return res.status(400).json('密码错误!');
+                    }
+                });
 
         })
 })
