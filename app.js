@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 const passport = require('passport');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
+var profilesRouter = require('./routes/profile');
 var usersRouter = require('./routes/users');
 
 var app = express();
@@ -40,11 +40,10 @@ const db = require('./config/keys').mongoURL;
 
 // passport 初始化
 app.use(passport.initialize());
-
 require('./config/passport')(passport);
 
-
-app.use('/', indexRouter);
+//路由配置
+app.use('/profile', profilesRouter);
 app.use('/users', usersRouter);
 
 

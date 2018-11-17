@@ -3,6 +3,7 @@ var router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
+const keys = require('../config/keys').secretOrKey;
 const Users = require('../models/Users');
 
 // @route  POST api/users/register
@@ -44,6 +45,8 @@ router.post('/register', (req, res) => {
 // @access public
 router.post('/login', (req, res) => {
     const email = req.body.email;
+    const password = req.body.password;
+    //查询数据库
     Users.findOne({ email })
         .then(user => {
             if (!user) {
@@ -56,10 +59,9 @@ router.post('/login', (req, res) => {
                         const rule = {
                             id: user.id,
                             name: user.name,
-                            avatar: user.avatar,
                             identity: user.identity
                         };
-                        jwt.sign(rule, keys.secretOrKey, { expiresIn: 3600 }, (err, token) => {
+                        jwt.sign(rule, keys, { expiresIn: 3600 }, (err, token) => {
                             if (err) throw err;
                             res.json({
                                 success: true,
@@ -73,6 +75,18 @@ router.post('/login', (req, res) => {
                 });
 
         })
+})
+
+// #route GET api/users/current
+// @desc return current user
+// @access Private
+router.get("/current",passport.authenticate("jwt",{session:false}),(req,res)=>{
+    res.json({
+        id: req.user.id,
+        name: req.user.name,
+        email: req.user.email,
+        identity: req.user.identity
+      });
 })
 
 module.exports = router;
