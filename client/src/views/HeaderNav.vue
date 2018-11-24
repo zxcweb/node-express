@@ -13,18 +13,28 @@
 
 <script>
     export default {
-        name:'headerNav'
+        name:'headerNav',
+        data(){
+          return {
+            value:'11'
+          }
+        },
+
+        props:["datac"],
+        methods:{
+        }
     }
 </script>
 
 <style scoped lang="less">
+@import '../assets/theme/index.less';
 #nav {
     height:50px;
     width:100%;
     display:flex;
     justify-content:space-between;
     align-items: center;
-    background-color: #293c55;
+    background-color: @base;
     .logo{
       display:flex;
       align-items:center;

@@ -1,7 +1,7 @@
 <template>
     <div id="aside-menu">
         <ul>
-            <router-link to="/home" tag="li">首页</router-link>
+            <router-link to="/" tag="li">首页</router-link>
             <router-link to="/about" tag="li">关于</router-link>
         </ul>
 
@@ -28,6 +28,7 @@ export default {
             height:54px;
             text-align:center;
             line-height:54px;
+            cursor: pointer;
         }
     }
 }
