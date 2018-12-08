@@ -3,6 +3,10 @@ import Router from 'vue-router'
 import Home from './views/Home/Home.vue'
 import Login from './views/Login/Login.vue'
 import Register from './views/Register/Register.vue'
+import MapView from './views/MapView/MapView.vue'
+import Manage from './views/Manage/Manage.vue'
+import Weather from './views/Weather/Weather.vue'
+import Collect from './views/Collect/Collect.vue'
 
 Vue.use(Router)
 
@@ -36,22 +40,23 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (collet.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "collet" */ './views/Collect/Collect.vue')
+      component: Collect
     },
     {
       path: '/mapView',
       name: 'mapView',
-      component: () => import('./views/MapView/MapView.vue')
-    },
-    {
-      path: '/manage',
-      name: 'manage',
-      component: () => import('./views/Manage/Manage.vue')
+      component: MapView
     },
     {
       path: '/weather',
       name: 'weather',
-      component: () => import('./views/Weather/Weather.vue')
+      component: Weather
     },
+    {
+      path: '/manage',
+      name: 'manage',
+      component: Manage
+    },
+    
   ]
 })

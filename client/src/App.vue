@@ -33,6 +33,7 @@ body,
 html {
     width: 100%;
     height: 100%;
+    color:#666;
 }
 #app {
     font-family: "Avenir", Helvetica, Arial, sans-serif;
