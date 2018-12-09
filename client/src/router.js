@@ -3,10 +3,6 @@ import Router from 'vue-router'
 import Home from './views/Home/Home.vue'
 import Login from './views/Login/Login.vue'
 import Register from './views/Register/Register.vue'
-import MapView from './views/MapView/MapView.vue'
-import Manage from './views/Manage/Manage.vue'
-import Weather from './views/Weather/Weather.vue'
-import Collect from './views/Collect/Collect.vue'
 
 Vue.use(Router)
 
@@ -16,12 +12,12 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'home1',
       component: Home
     },
     {
       path: '/home',
-      name: 'home',
+      name: 'home2',
       component: Home
     },
     {
@@ -40,22 +36,22 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (collet.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: Collect
+      component: ()=>import("./views/Collect/Collect.vue")
     },
     {
       path: '/mapView',
       name: 'mapView',
-      component: MapView
+      component: ()=>import("./views/MapView/MapView.vue")
     },
     {
       path: '/weather',
       name: 'weather',
-      component: Weather
+      component: ()=>import("./views/Weather/Weather.vue")
     },
     {
       path: '/manage',
       name: 'manage',
-      component: Manage
+      component: ()=>import("./views/Manage/Manage.vue")
     },
     
   ]

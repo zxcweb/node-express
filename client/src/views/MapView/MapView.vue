@@ -1,24 +1,85 @@
 <template>
-  <div class="mapView" ref="mapView">
+  <div
+    class="mapView"
+    ref="mapView"
+  >
     <div id="map"></div>
     <ul id="mapNav">
-      <li><span class="iconfont icon-luxian"></span><span>路线</span><b></b></li>
-      <li><span class="iconfont icon-jingweidu"></span><span>经纬</span><b></b></li>
-      <li><span class="iconfont icon-juliceliang"></span><span>测距</span><b></b></li>
-      <li><span class="iconfont icon-qiehuan"></span><span>切换</span></li>
+      <li>
+        <el-tooltip
+        class="item"
+        effect="dark"
+        content="路线查询"
+        placement="bottom"
+        :open-delay="800"
+      >
+        <div><span class="iconfont icon-luxian"></span><span>路线</span><b></b></div>
+        </el-tooltip>
+        </li>
+      <li>
+        <el-tooltip
+        class="item"
+        effect="dark"
+        content="经纬度定点"
+        placement="bottom"
+        :open-delay="800"
+      >
+        <div><span class="iconfont icon-jingweidu"></span><span>经纬</span><b></b></div>
+        </el-tooltip>
+        </li>
+      <li>
+        <el-tooltip
+        class="item"
+        effect="dark"
+        content="两点测距"
+        placement="bottom"
+        :open-delay="800"
+      >
+        <div><span class="iconfont icon-juliceliang"></span><span>测距</span><b></b></div>
+        </el-tooltip>
+        </li>
+      <li>
+        <el-tooltip
+        class="item"
+        effect="dark"
+        content="切换底图"
+        placement="bottom"
+        :open-delay="800"
+        
+      >
+        <div><span class="iconfont icon-qiehuan"></span><span>切换</span></div>
+        </el-tooltip>
+        </li>
     </ul>
-    <div id="screenUp" @click="screenUpFun" v-show="!isScreen">
-    <el-tooltip
-          class="item"
-          effect="dark"
-          content="个人收藏"
-          placement="left"
-        >
-      <span class="iconfont icon-quanping"></span>
+    <div
+      id="screenUp"
+      @click="screenUpFun"
+      v-show="!isScreen"
+    >
+      <el-tooltip
+        class="item"
+        effect="dark"
+        content="地图全屏"
+        placement="left"
+        :open-delay="800"
+      >
+        <span class="iconfont icon-quanping"></span>
       </el-tooltip>
     </div>
-    <div id="screenUp" @click="screenUpFun" v-show="isScreen">
-      <span class="iconfont icon-tuichuquanping-copy"></span>
+    <div
+      id="screenUp"
+      @click="screenUpFun"
+      v-show="isScreen"
+    >
+      <el-tooltip
+        class="item"
+        effect="dark"
+        content="退出全屏"
+        placement="left"
+        :open-delay="800"
+      >
+        <span class="iconfont icon-tuichuquanping-copy"></span>
+      </el-tooltip>
     </div>
   </div>
 </template>
@@ -26,13 +87,14 @@
 <script>
 // @ is an alias to /src
 import { MP } from "./map.js";
+import $ from 'jquery';
 export default {
   name: "mapView",
   data() {
     return {
       ak: "hRDWYNkYj5tT34f8MgTDbU2kNbNOcNHG", //密钥
       map: null,
-      isScreen:false
+      isScreen: false
     };
   },
   mounted() {
@@ -60,14 +122,14 @@ export default {
         anchor: BMAP_ANCHOR_TOP_RIGHT
       };
       this.map.addControl(new BMap.NavigationControl(opts));
-      console.log(this.$refs.mapView)
-      
     },
-    screenUpFun(){
-      if(!this.isScreen){
-        this.$refs.mapView.style.position = 'inherit';
-      }else{
-        this.$refs.mapView.style.position = 'relative';
+    screenUpFun() {
+      if (!this.isScreen) {
+        this.$refs.mapView.style.position = "inherit";
+        $("#aside-menu").css({zIndex:0})
+      } else {
+        this.$refs.mapView.style.position = "relative";
+        $("#aside-menu").css({zIndex:2})
       }
       this.isScreen = !this.isScreen;
     }
@@ -102,8 +164,15 @@ export default {
     li {
       display: flex;
       align-items: center;
-      padding: 0 8px;
       cursor: pointer;
+      height:100%;
+      div{
+        width:100%;
+        height:100%;
+        padding: 0 8px;
+        display:flex;
+        align-items: center;
+      }
       &:hover {
         color: @themeColor;
       }
