@@ -13,11 +13,13 @@ export default new Router({
     {
       path: '/',
       name: 'home1',
+      meta:{index:0},
       component: Home
     },
     {
       path: '/home',
       name: 'home2',
+      meta:{index:0},
       component: Home
     },
     {
@@ -33,6 +35,7 @@ export default new Router({
     {
       path: '/collect',
       name: 'collect',
+      meta:{index:4},
       // route level code-splitting
       // this generates a separate chunk (collet.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -41,16 +44,19 @@ export default new Router({
     {
       path: '/mapView',
       name: 'mapView',
+      meta:{index:2},
       component: ()=>import("./views/MapView/MapView.vue")
     },
     {
       path: '/weather',
       name: 'weather',
+      meta:{index:3},
       component: ()=>import("./views/Weather/Weather.vue")
     },
     {
       path: '/manage',
       name: 'manage',
+      meta:{index:1},
       component: ()=>import("./views/Manage/Manage.vue")
     },
     

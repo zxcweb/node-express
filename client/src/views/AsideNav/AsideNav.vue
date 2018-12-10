@@ -40,7 +40,7 @@
       <router-link
         to="/mapView"
         tag="li"
-        class="map"
+        class="mapView"
       >
         <el-tooltip
           class="item"
@@ -169,6 +169,12 @@ export default {
       .item_tooltip {
         width: 100%;
         height: 100%;
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
     }
     li:hover {

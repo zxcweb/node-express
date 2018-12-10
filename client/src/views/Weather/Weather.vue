@@ -14,6 +14,10 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-
+.weather{
+  width:100%;
+  height:100%;
+  background-color: blue;
+}
 </style>
 
