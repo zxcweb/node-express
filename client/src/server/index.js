@@ -1,4 +1,4 @@
-import req from 'axios';
+import req from './axiosConfig';
 class Server {
     //天气接口
     constructor() {

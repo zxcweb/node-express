@@ -7,7 +7,7 @@
       <!-- 左侧边栏 -->
       <AsideNav />
       <!-- 右侧内容 -->
-      <div id="aside-content">
+      <div id="aside-content" v-loading="loading">
           <router-view/>
       </div>
     </div>
@@ -22,6 +22,7 @@ export default {
   name: "app",
   data(){
     return {
+      loading:true
     }
   },
   components: {
@@ -29,6 +30,9 @@ export default {
     AsideNav
   },
   watch: {
+    $route(e){
+      console.log(e)
+    }
   }
 };
 </script>
