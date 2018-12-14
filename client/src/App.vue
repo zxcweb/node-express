@@ -61,7 +61,9 @@ html {
     }
   }
 }
-
+.anchorBL{
+  display:none;
+}
 
 
 </style>
