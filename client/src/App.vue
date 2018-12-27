@@ -15,6 +15,7 @@
   </div>
 </template>
 <script>
+import {mapState} from 'vuex';
 import HeaderNav from "@/views/HeaderNav/HeaderNav";
 import AsideNav from "@/views/AsideNav/AsideNav";
 import $ from 'jquery';
@@ -22,16 +23,16 @@ export default {
   name: "app",
   data(){
     return {
-      loading:true
     }
   },
+  computed:mapState(['loading']),
   components: {
     HeaderNav,
     AsideNav
   },
   watch: {
     $route(e){
-      console.log(e)
+      this.$store.commit("loading",{flag:true});
     }
   }
 };

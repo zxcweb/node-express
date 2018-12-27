@@ -128,6 +128,7 @@ export default {
         this.initMap(BMap);
       });
     });
+    this.$store.commit("loading",{flag:false})
   },
   methods: {
     // 地图基础配置
