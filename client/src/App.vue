@@ -69,6 +69,9 @@ html {
 .anchorBL{
   display:none;
 }
+#root .el-tabs_item {
+        color:#fff!important;
+      }
 
 
 </style>
