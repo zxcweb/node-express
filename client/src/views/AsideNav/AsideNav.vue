@@ -166,7 +166,7 @@ export default {
         margin-right: 6px;
         font-size: 16px;
       }
-      .item_tooltip {
+      .router-link-active {
         width: 100%;
         height: 100%;
         display:flex;

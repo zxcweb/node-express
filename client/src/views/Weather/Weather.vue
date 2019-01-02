@@ -1,145 +1,197 @@
 <template>
-  <div class="weather">
-    <div
-      id="w_forecast"
-      v-if="datas"
-    >
+  <div class="weather_box">
+
+    <div id="w_forecast">
       <!-- <div class="w_"></div> -->
 
       <ul class="w_box">
-        <li class="w_today">
-          <div class="w_t_week">{{convertWeek(datas[0].date)}}</div>
-          <div class="w_t_date">
-            {{datas[0].date}}
-          </div>
-          <div class="w_t_img">
-            <img
-              :src="getImgUrl(datas[0].cond_code_d)"
-              alt="天气"
-              class="w_img_big"
-            >
-          </div>
-          <div class="w_t_temp">
-            <span>{{datas[0].tmp_min}}℃ ～ {{datas[0].tmp_max}}℃</span>
-            &nbsp;&nbsp;
-            <span class="w_status">{{datas[0].cond_txt_d}}</span>
-            &nbsp;&nbsp;
-            <span
-              class="iconfont icon-tianqi-fengxiang w_rotate"
-              :style="{transform:'rotate('+datas[0].wind_deg+'deg)'}"
-            ></span>
-          </div>
-          <div class="w_t_table">
-            <table>
-              <tbody>
-                <tr>
-                  <td>风力:</td>
-                  <td>{{datas[0].wind_sc}}级</td>
-                  <td>风向:</td>
-                  <td>{{datas[0].wind_dir}}</td>
-                </tr>
-                <tr>
-                  <td>相对湿度:</td>
-                  <td>{{datas[0].hum}}</td>
-                  <td>降水量:</td>
-                  <td>{{datas[0].pcpn}}</td>
-                </tr>
-                <tr>
-                  <td>紫外线强度:</td>
-                  <td>{{datas[0].uv_index}}</td>
-                  <td>大气压强:</td>
-                  <td>{{datas[0].pres}}</td>
-                </tr>
-              </tbody>
-
-            </table>
-          </div>
-
-        </li>
-        
-        <li
-          v-for="(item,index) in datas"
-          class="w_forecast_item"
+        <!-- <li
+          class="w_today"
+          v-for="(item,index) in data0"
           :key="index"
         >
-        <template v-if="index!==0">
-          <div class="w_week">{{convertWeek(datas[index].date)}}</div>
-          <div class="w_date">
-            {{datas[index].date}}
-          </div>
-          <div class="w_img">
-            <img
-              :src="getImgUrl(datas[index].cond_code_d)"
-              alt="天气"
-              class="w_img_big"
-            >
-          </div>
-          <div>
-            <span class="w_status">{{datas[index].cond_txt_d}}</span>
-          </div>
-          <div>
-            <span
-              class="iconfont icon-tianqi-fengxiang w_rotate"
-              :style="{transform:'rotate('+datas[index].wind_deg+'deg)'}"
-            ></span>
-          </div>
-          <div class="w_t_temp">
-            <span>{{datas[index].tmp_min}}℃ ～ {{datas[index].tmp_max}}℃</span>
-          </div>
+          
+
+        </li> -->
+        <li
+          v-for="(item,index) in datas"
+          :class="{w_forecast_item:index!==0,w_today:index===0}"
+          :key="index"
+        >
+          <template v-if="index===0">
+            <div class="w_t_week">{{convertWeek(item.date)}}</div>
+            <div class="w_t_date">
+              {{item.date}}
+            </div>
+            <div class="w_t_img">
+              <img
+                :src="getImgUrl(item.cond_code_d)"
+                alt="天气"
+                class="w_img_big"
+              >
+            </div>
+            <div class="w_t_temp">
+              <span>{{item.tmp_min}}℃ ～ {{item.tmp_max}}℃</span>
+              &nbsp;&nbsp;
+              <span class="w_status">{{item.cond_txt_d}}</span>
+              &nbsp;&nbsp;
+              <span
+                class="iconfont icon-tianqi-fengxiang w_rotate"
+                :style="{transform:'rotate('+item.wind_deg+'deg)'}"
+              ></span>
+            </div>
+            <div class="w_t_table">
+              <table>
+                <tbody>
+                  <tr>
+                    <td>风力:</td>
+                    <td>{{item.wind_sc}}级</td>
+                    <td>风向:</td>
+                    <td>{{item.wind_dir}}</td>
+                  </tr>
+                  <tr>
+                    <td>相对湿度:</td>
+                    <td>{{item.hum}}</td>
+                    <td>降水量:</td>
+                    <td>{{item.pcpn}}</td>
+                  </tr>
+                  <tr>
+                    <td>紫外线强度:</td>
+                    <td>{{item.uv_index}}</td>
+                    <td>大气压强:</td>
+                    <td>{{item.pres}}</td>
+                  </tr>
+                </tbody>
+
+              </table>
+            </div>
           </template>
+          <template v-if="index!==0">
+            <div class="w_week">{{convertWeek(datas[index].date)}}</div>
+            <div class="w_date">
+              {{datas[index].date}}
+            </div>
+            <div class="w_img">
+              <img
+                :src="getImgUrl(datas[index].cond_code_d)"
+                alt="天气"
+                class="w_img_big"
+              >
+            </div>
+            <div>
+              <span class="w_status">{{datas[index].cond_txt_d}}</span>
+            </div>
+            <div>
+              <span
+                class="iconfont icon-tianqi-fengxiang w_rotate"
+                :style="{transform:'rotate('+datas[index].wind_deg+'deg)'}"
+              ></span>
+            </div>
+            <div class="w_t_temp">
+              <span>{{datas[index].tmp_min}}℃ ～ {{datas[index].tmp_max}}℃</span>
+            </div>
+          </template>
+
         </li>
-        
-        
       </ul>
 
     </div>
     <div id="w_charts">
       <div class="w_c_box">
+        <div class="w_c_nav">
+          <div
+            :class="{w_c_first:true, active:active===0}"
+            @click="handleTags"
+          >气温</div>
+          <div
+            :class="{w_c_second:true,active:active===1}"
+            @click="handleTags"
+          >湿度</div>
+          <div
+            :class="{w_c_thrid:true,active:active===2}"
+            @click="handleTags"
+          >降水量</div>
+        </div>
+        <div class="w_c_container">
+          <div
+            id="w_c_first"
+            :class="{active:active===0}"
+          >
+
+          </div>
+          <div
+            id="w_c_second"
+            :class="{active:active===1}"
+          >
+
+          </div>
+          <div
+            id="w_c_third"
+            :class="{active:active===2}"
+          >
+
+          </div>
+        </div>
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
 // @ is an alias to /src
 import server from "@/server";
-import options from "./options"
+import options from "./options.js";
+import $ from "jquery";
+
+//引入echarts
+import echarts from "echarts";
 export default {
   name: "weather",
   data() {
     return {
-      activeName:'first',
       datas: null,
+      active: 0,
       rotateDeg: 100,
       imgUrl: require("../../assets/images/default_Icon.png"),
-      firstChart:null
+      firstChart: null,
+      secondChart: null,
+      thirdChart: null
     };
   },
+  computed: {},
   mounted() {
-    server
-      .weather({
-        location: "北京"
-      })
-      .then(data => {
-        if (
-          data.HeWeather6 &&
-          data.HeWeather6[0] &&
-          data.HeWeather6[0].status === "ok"
-        ) {
-          let result = data.HeWeather6[0];
-          this.datas = result.daily_forecast;
-          console.log(this.datas);
-          this.imgUrl = require("../../assets/images/weather/" +
-            result.daily_forecast[0].cond_code_d +
-            ".png");
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    this.firstChart = this.$echarts.init(document.getElementById("firstChart"));
-    //loading取消
-    this.$store.commit("loading", { flag: false });
+    this.$nextTick(() => {
+      //初始化echarts
+      this.initEcharts()
+      
+      server
+        .weather({
+          location: "北京"
+        })
+        .then(data => {
+          if (
+            data.HeWeather6 &&
+            data.HeWeather6[0] &&
+            data.HeWeather6[0].status === "ok"
+          ) {
+            let result = data.HeWeather6[0];
+            this.datas = result.daily_forecast;
+            console.log(this.datas)
+            this.imgUrl = require("../../assets/images/weather/" +
+              result.daily_forecast[0].cond_code_d +
+              ".png");
+              this.firstChartFun();
+          }
+        });
+     
+      // this.firstChart.setOption();
+      // this.secondChart = this.$echarts.init(document.getElementById("w_c_second"));
+      // this.thirdChart = this.$echarts.init(document.getElementById("w_c_third"));
+
+      //loading取消
+      this.$store.commit("loading", { flag: false });
+    });
   },
   methods: {
     convertWeek(date) {
@@ -164,24 +216,48 @@ export default {
     getImgUrl(name) {
       return require("../../assets/images/weather/" + name + ".png");
     },
-    handleClick(e){
-      if(e.name == "first"){
-        this.firstChart.setOption(options.firstChart())
-      }else if(e.name == "second"){
+    handleTags(e) {
+      this.active = $(".w_c_nav>div").index($(e.currentTarget));
+      setTimeout(() => {
+        if (this.active === 0) {
+          firstChartFun()
+          this.firstChart.resize();
+        } else if (this.active === 1) {
+          this.secondChart.setOption(options.secondOption());
+          this.secondChart.resize();
+        } else if (this.active === 2) {
+          this.thirdChart.setOption(options.thirdOption());
+          this.thirdChart.resize();
+        }
+      }, 100);
+    },
+    initEcharts(){
+      this.firstChart = echarts.init(document.getElementById("w_c_first"));
+      this.secondChart = echarts.init(document.getElementById("w_c_second"));
+      this.thirdChart = echarts.init(document.getElementById("w_c_third"));
+    },
+    firstChartFun(){
+      let data = this.datas;
+      let data1 = [];
+      let data2 = [];
+      let date = [];
 
-      }else if(e.name == "third"){
-
-      }else if(e.name == "fourth"){
-
-      }
+      data.map((item,index)=>{
+        data1.push(item.tmp_max);
+        data2.push(item.tmp_min);
+        let w = item.date+"("+this.convertWeek(item.date)+")";
+        date.push(w)
+      })
+      console.log(data1,data2,date)
+      this.firstChart.setOption(options.firstOption(data1,data2,date));
     }
   },
   components: {}
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 @import "~@/assets/theme/index.less";
-.weather {
+.weather_box {
   width: 100%;
   height: 100%;
   display: flex;
@@ -287,13 +363,43 @@ export default {
   #w_charts {
     flex: 1;
     padding: 0 20px 20px 20px;
-    
     .w_c_box {
       width: 100%;
       height: 100%;
-      border-radius:3px;
+      border-radius: 3px;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
       background-color: rgba(255, 255, 255, 0.3);
+      .w_c_nav {
+        height: 36px;
+        line-height: 36px;
+        display: flex;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        color: #fff;
+        text-shadow: @textShadow;
+        div {
+          padding: 0 15px;
+          position: relative;
+          cursor: pointer;
+        }
+        div.active {
+          background: rgba(255, 255, 255, 0.3);
+          color: @themeColor;
+          text-shadow: none;
+        }
+      }
+      .w_c_container {
+        flex: 1;
+        div {
+          width: 100%;
+          height: 100%;
+          display: none;
+        }
+        div.active {
+          display: inline-block;
+        }
+      }
     }
   }
 }

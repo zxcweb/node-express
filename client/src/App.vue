@@ -8,7 +8,9 @@
       <AsideNav />
       <!-- 右侧内容 -->
       <div id="aside-content" v-loading="loading">
+        <transition name="nav" mode="in-out">
           <router-view/>
+        </transition>
       </div>
     </div>
 
@@ -69,9 +71,24 @@ html {
 .anchorBL{
   display:none;
 }
-#root .el-tabs_item {
-        color:#fff!important;
-      }
+.nav-enter{
+  transform:translateY(100%);
+}
+.nav-enter-to{
+  transform:translateY(0%);
+}
+.nav-enter-active{
+  transition:100ms;
+}
+.nav-leave{
+  transform:translateY(0%);
+}
+.nav-leave-to{
+  transform:translateY(-100%);
+}
+.nav-leave-active{
+  transition:100ms;
+}
 
 
 </style>
