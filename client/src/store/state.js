@@ -1,3 +1,4 @@
 export default {
-    loading:true
+    loading:true,
+    resultArea:'北京市'
 }

@@ -134,6 +134,7 @@
         </div>
       </div>
     </div>
+    <Eye/>
   </div>
 
 </template>
@@ -142,6 +143,8 @@
 // @ is an alias to /src
 import server from "@/server";
 import options from "./options.js";
+import Eye from '@/components/Eye';
+import {mapState} from 'vuex'
 import $ from "jquery";
 
 //引入echarts
@@ -159,15 +162,25 @@ export default {
       thirdChart: null
     };
   },
-  computed: {},
+  computed: {
+    ...mapState(['resultArea'])
+  },
   mounted() {
     this.$nextTick(() => {
       //初始化echarts
-      this.initEcharts()
-      
+      this.initEcharts();
+      //请求数据并加载第一个图表
+      this.getData();
+      //loading取消
+      this.$store.commit("loading", { flag: false });
+    });
+  },
+  methods: {
+    //请求数据
+    getData(){
       server
         .weather({
-          location: "北京"
+          location: this.resultArea
         })
         .then(data => {
           if (
@@ -177,23 +190,15 @@ export default {
           ) {
             let result = data.HeWeather6[0];
             this.datas = result.daily_forecast;
-            console.log(this.datas)
+            console.log(this.datas);
             this.imgUrl = require("../../assets/images/weather/" +
               result.daily_forecast[0].cond_code_d +
               ".png");
-              this.firstChartFun();
+            this.firstChartFun();
           }
         });
-     
-      // this.firstChart.setOption();
-      // this.secondChart = this.$echarts.init(document.getElementById("w_c_second"));
-      // this.thirdChart = this.$echarts.init(document.getElementById("w_c_third"));
-
-      //loading取消
-      this.$store.commit("loading", { flag: false });
-    });
-  },
-  methods: {
+    },
+    //日期转换周
     convertWeek(date) {
       let d = new Date(date).getDay();
       switch (d) {
@@ -213,46 +218,88 @@ export default {
           return "周六";
       }
     },
+    //获取本地图片
     getImgUrl(name) {
       return require("../../assets/images/weather/" + name + ".png");
     },
+    //点击图表tab
     handleTags(e) {
       this.active = $(".w_c_nav>div").index($(e.currentTarget));
-      setTimeout(() => {
-        if (this.active === 0) {
-          firstChartFun()
+      if (this.active === 0) {
+        this.firstChartFun();
+        setTimeout(()=>{
           this.firstChart.resize();
-        } else if (this.active === 1) {
-          this.secondChart.setOption(options.secondOption());
+        })
+      } else if (this.active === 1) {
+        this.secondChartFun()
+        setTimeout(()=>{
           this.secondChart.resize();
-        } else if (this.active === 2) {
-          this.thirdChart.setOption(options.thirdOption());
+        })
+        
+      } else if (this.active === 2) {
+        this.thirdChartFun();
+        setTimeout(()=>{
           this.thirdChart.resize();
-        }
-      }, 100);
+        })
+      }
     },
-    initEcharts(){
+    //初始化echarts
+    initEcharts() {
       this.firstChart = echarts.init(document.getElementById("w_c_first"));
       this.secondChart = echarts.init(document.getElementById("w_c_second"));
       this.thirdChart = echarts.init(document.getElementById("w_c_third"));
     },
-    firstChartFun(){
+    //气温图表
+    firstChartFun() {
       let data = this.datas;
       let data1 = [];
       let data2 = [];
       let date = [];
 
-      data.map((item,index)=>{
+      data.map(item => {
         data1.push(item.tmp_max);
         data2.push(item.tmp_min);
-        let w = item.date+"("+this.convertWeek(item.date)+")";
-        date.push(w)
-      })
-      console.log(data1,data2,date)
-      this.firstChart.setOption(options.firstOption(data1,data2,date));
+        let w = item.date + "(" + this.convertWeek(item.date) + ")";
+        date.push(w);
+      });
+      this.firstChart.setOption(options.firstOption(data1, data2, date));
+    },
+    //相对湿度
+    secondChartFun(){
+      let data = this.datas;
+      let data0 = [];
+      let date = [];
+
+      data.map(item => {
+        data0.push(item.hum);
+        let w = item.date + "(" + this.convertWeek(item.date) + ")";
+        date.push(w);
+      });
+      console.log(data0, date);
+      this.secondChart.setOption(options.secondOption(data0, date));
+    },
+    //降水量
+    thirdChartFun(){
+      let data = this.datas;
+      let data0 = [];
+      let date = [];
+
+      data.map(item => {
+        data0.push(item.pcpn);
+        let w = item.date + "(" + this.convertWeek(item.date) + ")";
+        date.push(w);
+      });
+      this.thirdChart.setOption(options.thirdOption(data0, date));
     }
   },
-  components: {}
+  watch:{
+    resultArea(e){
+      this.getData()
+    }
+  },
+  components: {
+    Eye
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -263,6 +310,7 @@ export default {
   display: flex;
   flex-direction: column;
   background: linear-gradient(to bottom, #1a70c0, #6faade);
+  position:relative;
   #w_forecast {
     width: 100%;
     height: 300px;
@@ -328,7 +376,7 @@ export default {
           align-items: center;
           justify-content: center;
           img.w_img_big {
-            height: 100%;
+            // height: 100%;
           }
         }
       }
@@ -415,6 +463,10 @@ export default {
 }
 .w_rotate {
   display: inline-block;
+}
+#eye{
+  width:30px;
+  height:30px;
 }
 </style>
 

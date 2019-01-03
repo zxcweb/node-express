@@ -20,7 +20,6 @@
 import {mapState} from 'vuex';
 import HeaderNav from "@/views/HeaderNav/HeaderNav";
 import AsideNav from "@/views/AsideNav/AsideNav";
-import $ from 'jquery';
 export default {
   name: "app",
   data(){
@@ -33,7 +32,7 @@ export default {
     AsideNav
   },
   watch: {
-    $route(e){
+    $route(){
       this.$store.commit("loading",{flag:true});
     }
   }
@@ -74,20 +73,20 @@ html {
 .nav-enter{
   transform:translateY(100%);
 }
+.nav-enter-active{
+  transition: all 0.4s ease;
+}
 .nav-enter-to{
   transform:translateY(0%);
 }
-.nav-enter-active{
-  transition:100ms;
+.nav-leave-active{
+  transition: all 0.2s ease;
 }
 .nav-leave{
-  transform:translateY(0%);
+  transform: translateY(0%);
 }
 .nav-leave-to{
-  transform:translateY(-100%);
-}
-.nav-leave-active{
-  transition:100ms;
+  transform: translateY(-100%);
 }
 
 
